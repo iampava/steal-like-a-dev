@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ResourcesManifestPlugin = require("resources-manifest-webpack-plugin");
+const ResourcesManifestPlugin = require('resources-manifest-webpack-plugin');
 
 const modeConfig = env => require(`${path.resolve(__dirname, 'build-utils')}/webpack.${env}`)(env);
 
@@ -20,14 +20,7 @@ module.exports = ({mode} = {mode: 'production'}) => {
                 rules: [
                     {
                         test: /\.jsx?$/,
-                        use: [
-                            {
-                                loader: 'babel-loader',
-                                options: {
-                                    envName: mode
-                                }
-                            }
-                        ]
+                        use: ['babel-loader']
                     },
                     {
                         test: /\.(png|jpe?g|gif|svg|webp)$/,
@@ -59,9 +52,12 @@ module.exports = ({mode} = {mode: 'production'}) => {
                         PUBLIC_URL: ''
                     }
                 }),
-                new ResourcesManifestPlugin({
-                    TO_CACHE: /.+\.(js|css|png|jpe?g|gif|svg|webp)$/
-                }, 'public/service-worker.js'),
+                new ResourcesManifestPlugin(
+                    {
+                        TO_CACHE: /.+\.(js|css|png|jpe?g|gif|svg|webp)$/
+                    },
+                    'public/service-worker.js'
+                ),
                 new webpack.ProgressPlugin()
             ]
         },
