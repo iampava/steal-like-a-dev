@@ -4,7 +4,8 @@ We use a lot of 3rd party code every day, but how much of how that code works do
 So, as a learning side'project, I started implementing various packages/libraries that seem interesting enough to be worth the effort.
 
 1. [<img width="20" src="https://raw.githubusercontent.com/iampava/steal-like-a-dev/master/_assets/react-logo.png" /> create-react-app](https://github.com/iampava/steal-like-a-dev/tree/master/create-react-app)
-2. react-router [coming next]
+2. [<img width="20" src="https://raw.githubusercontent.com/iampava/steal-like-a-dev/master/_assets/react-logo.png" /> react-router](https://github.com/iampava/steal-like-a-dev/tree/master/react-router)
+3. redux [coming next]
 
 <hr/>
 
