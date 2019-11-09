@@ -1,0 +1,30 @@
+{
+    "name": "react-router",
+    "description": "Custom implementation of some of react-router's functionality, for learning purposes!",
+    "author": {
+        "name": "Alexandru Pavaloi",
+        "email": "pava@iampava.com",
+        "url": "https://iampava.com"
+    },
+    "main": "index.js",
+    "scripts": {
+        "clear": "rm -rf dist/",
+        "webpack": "webpack",
+        "webpack-dev-server": "webpack-dev-server",
+        "test:dev": "npm run webpack-dev-server -- --env.mode development --hot",
+        "test:prod": "npm run clear && npm run webpack -- --env.mode production"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.2",
+        "@babel/preset-env": "^7.7.1",
+        "@babel/preset-react": "^7.7.0",
+        "babel-loader": "^8.0.6",
+        "html-webpack-plugin": "^3.2.0",
+        "react": "^16.11.0",
+        "react-dom": "^16.11.0",
+        "webpack": "^4.41.2",
+        "webpack-cli": "^3.3.10",
+        "webpack-dev-server": "^3.9.0",
+        "webpack-merge": "^4.2.2"
+    }
+}
