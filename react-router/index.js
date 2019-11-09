@@ -13,13 +13,15 @@ var HistoryModule = (function historyModuleIIFE() {
         unsubscribe(cb) {
             subscribers = subscribers.filter(subscribeCb => subscribeCb !== cb);
         },
-        navigateTo(to) {
-            return e => {
-                e && e.preventDefault();
-                window.history.pushState(window.history.state, undefined, to);
+        push(to, state) {
+            window.history.pushState(state, undefined, to);
 
-                notifySubscribers();
-            };
+            notifySubscribers();
+        },
+        replace(to, state) {
+            window.history.replaceState(state, undefined, to);
+
+            notifySubscribers();
         },
         dispose() {
             subscribers.length = 0;
@@ -41,7 +43,7 @@ export class Switch extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.children.find(child => child.type !== Route)) {
+        if (this.props.children.find(child => !Route.isPrototypeOf(child.type))) {
             throw new Error('Expecting all <Switch /> children to be <Route /> components!');
         }
         HistoryModule.subscribe(this.onHistoryChange);
@@ -107,7 +109,14 @@ export class Route extends React.Component {
             groupNames.forEach((name, index) => (params[name] = regexpResult[index + 1]));
 
             return React.createElement(this.props.component || noop, {
-                match: { params }
+                match: { params },
+                location: {
+                    state: window.history.state
+                },
+                history: {
+                    push: HistoryModule.push,
+                    replace: HistoryModule.replace
+                }
             });
         }
 
@@ -117,12 +126,22 @@ export class Route extends React.Component {
 
 export function Link(props) {
     let to = props.to || '#';
-    let onClick = HistoryModule.navigateTo(to);
+    let state = null;
+
+    if (typeof to === 'object') {
+        state = to.state;
+        to = to.pathname;
+    }
+
+    let onClick = function onLinkClick(e) {
+        e.preventDefault();
+        HistoryModule.push(to, state);
+    };
 
     if (props.onClick) {
         onClick = function(e) {
             props.onClick(e);
-            HistoryModule.navigateTo(to)(e);
+            onLinkClick(e);
         };
     }
 
@@ -135,8 +154,9 @@ export function Link(props) {
 
 export class Redirect extends React.Component {
     componentDidMount() {
-        HistoryModule.navigateTo(to)(null);
+        HistoryModule.push(this.props.to || '');
     }
+
     render() {
         return null;
     }
