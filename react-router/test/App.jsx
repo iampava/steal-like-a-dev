@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Switch, Route, Link } from '../index';
+import { Switch, Route, Link, Redirect } from '../index';
 
 function Root() {
     return (
@@ -33,7 +33,12 @@ function Home() {
 }
 
 function Team(props) {
-    return <p> Team: {props.match.params.teamId} </p>;
+    return (
+        <React.Fragment>
+            <p> Team: {props.match.params.teamId} </p>
+            <Redirect to="/404" />
+        </React.Fragment>
+    );
 }
 
 function User(props) {

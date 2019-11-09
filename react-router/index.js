@@ -15,7 +15,7 @@ var HistoryModule = (function historyModuleIIFE() {
         },
         navigateTo(to) {
             return e => {
-                e.preventDefault();
+                e && e.preventDefault();
                 window.history.pushState(window.history.state, undefined, to);
 
                 notifySubscribers();
@@ -32,7 +32,7 @@ var HistoryModule = (function historyModuleIIFE() {
     }
 })();
 
-class Switch extends React.Component {
+export class Switch extends React.Component {
     constructor(props) {
         super(props);
 
@@ -66,7 +66,7 @@ class Switch extends React.Component {
     }
 }
 
-class Route extends React.Component {
+export class Route extends React.Component {
     constructor(props) {
         super(props);
 
@@ -115,7 +115,7 @@ class Route extends React.Component {
     }
 }
 
-function Link(props) {
+export function Link(props) {
     let to = props.to || '#';
     let onClick = HistoryModule.navigateTo(to);
 
@@ -133,7 +133,14 @@ function Link(props) {
     );
 }
 
-export { Switch, Route, Link };
+export class Redirect extends React.Component {
+    componentDidMount() {
+        HistoryModule.navigateTo(to)(null);
+    }
+    render() {
+        return null;
+    }
+}
 
 /******************************************* */
 function noop() {}
