@@ -1,16 +1,88 @@
 import React from 'react';
 
+var HistoryModule = (function historyModuleIIFE() {
+    let subscribers = [];
+
+    window.addEventListener('popstate', notifySubscribers);
+
+    return {
+        subscribe(cb) {
+            subscribers.push(cb);
+            window.addEventListener('popstate', cb);
+        },
+        unsubscribe(cb) {
+            subscribers = subscribers.filter(subscribeCb => subscribeCb !== cb);
+        },
+        navigateTo(to) {
+            return e => {
+                e.preventDefault();
+                window.history.pushState(window.history.state, undefined, to);
+
+                notifySubscribers();
+            };
+        },
+        dispose() {
+            subscribers.length = 0;
+            window.removeEventListener('popstate', notifySubscribers);
+        }
+    };
+
+    function notifySubscribers() {
+        subscribers.forEach(cb => cb());
+    }
+})();
+
+class Switch extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { pathname: window.location.pathname };
+        this.onHistoryChange = this.onHistoryChange.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.children.find(child => child.type !== Route)) {
+            throw new Error('Expecting all <Switch /> children to be <Route /> components!');
+        }
+        HistoryModule.subscribe(this.onHistoryChange);
+    }
+
+    componentWillUnmount() {
+        HistoryModule.unsubscribe(this.onHistoryChange);
+    }
+
+    onHistoryChange() {
+        this.setState({ pathname: window.location.pathname });
+    }
+
+    render() {
+        const matchedRoute = this.props.children.find(child => {
+            const { path, exact } = child.props;
+
+            return parseRoutePath(path, exact).regexp.exec(this.state.pathname);
+        });
+
+        return matchedRoute || null;
+    }
+}
+
 class Route extends React.Component {
-    constructor({ exact = false, path = '' } = {}) {
-        super();
+    constructor(props) {
+        super(props);
 
-        const { regexp, groupNames } = parsePath(path, exact);
-        this.regexp = regexp;
-        this.groupNames = groupNames;
+        const { regexp, groupNames } = parseRoutePath(props.path, props.exact);
 
-        this.state = { dirty: false };
+        this.state = {
+            pathname: window.location.pathname,
+            regexp,
+            groupNames
+        };
 
         this.onHistoryChange = this.onHistoryChange.bind(this);
+    }
+
+    static getDerivedStateFromProps(props) {
+        return parseRoutePath(props.path, props.exact);
     }
 
     componentDidMount() {
@@ -22,16 +94,17 @@ class Route extends React.Component {
     }
 
     onHistoryChange() {
-        this.setState({ dirty: true });
+        this.setState({ pathname: window.location.pathname });
     }
 
     render() {
-        const regexpResult = this.regexp.exec(window.location.pathname);
+        const { regexp, groupNames, pathname } = this.state;
+        const regexpResult = regexp.exec(pathname);
 
         if (regexpResult) {
             let params = {};
 
-            this.groupNames.forEach((name, index) => (params[name] = regexpResult[index + 1]));
+            groupNames.forEach((name, index) => (params[name] = regexpResult[index + 1]));
 
             return React.createElement(this.props.component || noop, {
                 match: { params }
@@ -44,8 +117,8 @@ class Route extends React.Component {
 
 function Link(props) {
     let to = props.to || '#';
-
     let onClick = HistoryModule.navigateTo(to);
+
     if (props.onClick) {
         onClick = function(e) {
             props.onClick(e);
@@ -60,12 +133,12 @@ function Link(props) {
     );
 }
 
-export { Route, Link };
+export { Switch, Route, Link };
 
 /******************************************* */
 function noop() {}
 
-function parsePath(path = '', exact) {
+function parseRoutePath(path = '', exact) {
     let pathParts = path.split('/');
     let groupNames = [];
 
@@ -91,34 +164,3 @@ function parsePath(path = '', exact) {
         groupNames
     };
 }
-
-var HistoryModule = (function() {
-    const subscribers = [];
-
-    window.addEventListener('popstate', notifySubscribers);
-
-    return {
-        subscribe(cb) {
-            subscribers.push(cb);
-            window.addEventListener('popstate', cb);
-        },
-        unsubscribe(cb) {
-            subscribers = subscribers.filter(subscribeCb => subscribeCb !== cb);
-        },
-        navigateTo(to) {
-            return e => {
-                e.preventDefault();
-                notifySubscribers();
-                window.history.pushState(window.history.state, undefined, to);
-            };
-        },
-        dispose() {
-            subscribers.length = 0;
-            window.removeEventListener('popstate', notifySubscribers);
-        }
-    };
-
-    function notifySubscribers() {
-        subscribers.forEach(cb => cb());
-    }
-})();

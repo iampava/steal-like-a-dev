@@ -1,27 +1,47 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Route, Link } from '../index';
+import { Switch, Route, Link } from '../index';
 
 function Root() {
     return (
         <React.Fragment>
-            <Link to="/team/22">Go to team 22</Link>
-            <br />
-            <Link to="/">Go to root</Link>
+            <p>
+                <Link to="/team/22">Go to team 22</Link>
+            </p>
+            <p>
+                <Link to="/user/Bob">Go to user Bob</Link>
+            </p>
+            <p>
+                <Link to="/not-found">Go to not-found</Link>
+            </p>
             <h1> Hello world! </h1>
-            <Route path="/team/:teamId" component={teamId} />
+
+            <div style={{ border: '5px dashed #2196f3', padding: '.5em', fontSize: '2em' }}>
+                <Switch>
+                    <Route exact path="/team/:teamId" component={Team} />
+                    <Route exact path="/user/:userId" component={User} />
+                    <Route component={NotFound} />
+                </Switch>
+            </div>
         </React.Fragment>
     );
 }
 
-function teamId(props) {
-    return (
-        <div>
-            <p> {props.match.params.teamId} </p>
-            <p> {props.match.params.adminId} </p>
-        </div>
-    );
+function Home() {
+    return <p>Home </p>;
+}
+
+function Team(props) {
+    return <p> Team: {props.match.params.teamId} </p>;
+}
+
+function User(props) {
+    return <p> Team: {props.match.params.userId} </p>;
+}
+
+function NotFound() {
+    return <p> Not found!</p>;
 }
 
 render(<Root />, document.getElementById('app'));
