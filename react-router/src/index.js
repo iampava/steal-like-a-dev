@@ -29,16 +29,23 @@ export class Switch extends WithHistory {
 
     componentDidMount() {
         if (this.props.children.find(child => !WithHistory.isPrototypeOf(child.type))) {
-            throw new Error('Expecting all <Switch /> children to be <Route /> components!');
+            throw new Error('Expecting all <Switch /> children to be <Route /> or <Redirect /> components!');
         }
 
         WithHistory.prototype.componentDidMount.call(this);
-        // WithHistory.prototype.componentDidMount.call(this)
     }
 
     render() {
         const matchedRoute = this.props.children.find(child => {
-            const { path, exact } = child.props;
+            let path, exact = child.props.exact;
+
+            if(child.type === Route) {
+                path = child.props.path
+            } else {
+                exact = child.props.exact && child.props.from
+                path = child.props.from || '/'
+            }
+
             const parsedPaths = parseRoutePaths(path, exact);
 
             return parsedPaths.find(({ regexp }) => regexp.exec(this.state.pathname));
@@ -75,10 +82,13 @@ export class Route extends WithHistory {
 
                 groupNames.forEach((name, index) => (params[name] = regexpResult[index + 1]));
 
-                return React.createElement(this.props.component || noop, {
+                return React.createElement(this.props.component || Noop, {
                     match: { params },
                     location: {
-                        state: window.history.state
+                        state: window.history.state,
+                        search: window.location.search,
+                        hash: window.location.hash,
+                        pathname: window.location.pathname
                     },
                     history: {
                         push: HistoryModule.go,
@@ -108,8 +118,14 @@ export function Link(props) {
         };
     }
 
+    let processedProps = Object.assign({}, props, {
+        onClick
+    });
+    delete processedProps.to;
+    delete processedProps.replace;
+
     return (
-        <a {...props} href={to} onClick={onClick}>
+        <a {...processedProps} href={to}>
             {props.children}
         </a>
     );
@@ -122,10 +138,14 @@ export class Redirect extends WithHistory {
 
         if (!from) {
             return HistoryModule.go(to, state, push);
-        }
+        } else {
+            let currentPathname = this.props.location ? this.props.location.pathname : window.location.pathname
+            let parsedFromPath = parseRoutePaths(from, exact);
+            let shouldRedirect = parsedFromPath.find(({ regexp }) => regexp.exec(currentPathname));
 
-        if ((!exact && window.location.pathname.includes(from)) || (exact && window.location.pathname === from)) {
-            HistoryModule.go(to, state, push);
+            if (shouldRedirect) {
+                HistoryModule.go(to, state, !push);
+            }
         }
     }
 
@@ -135,8 +155,13 @@ export class Redirect extends WithHistory {
 }
 
 /******************************************* */
-function noop() {}
+function Noop() {}
 
+/**
+ *
+ * @param {string | string[]} path
+ * @param {boolean} exact
+ */
 function parseRoutePaths(path = '', exact) {
     let paths = Array.isArray(path) ? path : [path];
 
@@ -174,7 +199,12 @@ function parseToProp(to) {
     }
 
     if (typeof to === 'object') {
-        return [`${to.pathname}${to.search}${to.hash}`, to.state];
+        let { pathname, search, hash, state } = to;
+        pathname = pathname || '';
+        search = search || '';
+        hash = hash ? `#${hash}` : '';
+
+        return [`${pathname}${to.search}${hash}`, state];
     } else if (typeof to === 'function') {
         to = to(window.location);
 

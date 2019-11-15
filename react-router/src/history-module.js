@@ -1,9 +1,9 @@
 const HistoryModule = (function historyModuleIIFE() {
     let subscribers = [];
-    let current = {
+    let current = null
 
-    }
     window.addEventListener('popstate', notifySubscribers);
+    window.addEventListener('popstate', onPopState);
 
     return {
         subscribe(cb) {
@@ -14,11 +14,11 @@ const HistoryModule = (function historyModuleIIFE() {
             subscribers = subscribers.filter(subscribeCb => subscribeCb !== cb);
         },
         go(to, state, replace = false) {
-            if(current.state === state && current.to === to) {
+            if(current && current.state === state && current.to === to) {
                 return
             }
 
-            if (replace) {
+            if (!replace) {
                 window.history.pushState(state, undefined, to);
             } else {
                 window.history.replaceState(state, undefined, to);
@@ -27,14 +27,29 @@ const HistoryModule = (function historyModuleIIFE() {
             current = { state, to }
             notifySubscribers();
         },
+        
+        replace(to, state) {
+            window.history.pushState(state, undefined, to);
+            current = { state, to }
+
+            notifySubscribers();
+        },
+
         dispose() {
             current = null;
             subscribers.length = 0;
-            window.removeEventListener('popstate', notifySubscribers);
+            window.removeEventListener('popstate', onPopState);
         }
     };
 
-    function notifySubscribers() {
+    function onPopState(e) {
+        current = null;
+        
+        e.preventDefault();
+        notifySubscribers();
+    }
+
+    function notifySubscribers(e) {
         subscribers.forEach(cb => cb());
     }
 })();

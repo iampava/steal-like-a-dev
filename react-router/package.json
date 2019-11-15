@@ -15,6 +15,9 @@
         "test:dev": "npm run webpack-dev-server -- --env.mode development --hot",
         "test:prod": "npm run clear && npm run webpack -- --env.mode production"
     },
+    "repository": "https://github.com/iampava/steal-like-a-dev.git",
+    "bugs": "https://github.com/iampava/steal-like-a-dev/issues",
+    "homepage": "https://github.com/iampava/steal-like-a-dev",
     "devDependencies": {
         "@babel/core": "^7.7.2",
         "@babel/preset-env": "^7.7.1",
