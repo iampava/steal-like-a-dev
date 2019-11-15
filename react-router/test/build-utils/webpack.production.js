@@ -1,6 +1,6 @@
 module.exports = () => ({
     mode: 'production',
-    entry: ['./test/App.jsx'],
+    entry: ['./App.jsx'],
     devtool: 'none',
     output: {
         publicPath: '/dist/',

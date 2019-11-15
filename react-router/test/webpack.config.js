@@ -25,7 +25,7 @@ module.exports = ({ mode } = { mode: 'production' }) => {
             },
             plugins: [
                 new HtmlWebpackPlugin({
-                    template: './test/index.html',
+                    template: './index.html',
                     inject: 'body',
                     minify: {
                         html5: true,

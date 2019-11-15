@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Switch, Route, Link, Redirect } from '../src/index';
+import { Switch, Route, Link, Redirect } from '@steal-like-a-dev/react-router';
 
 function Root() {
     return (

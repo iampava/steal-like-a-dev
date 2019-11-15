@@ -1,6 +1,6 @@
 module.exports = () => ({
     mode: 'development',
-    entry: './test/App.jsx',
+    entry: './App.jsx',
     devtool: 'source-map',
     output: {
         publicPath: '/',
