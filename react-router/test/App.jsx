@@ -11,7 +11,8 @@ function Root() {
             </p>
             <p>
                 <Link to="/team/22" replace>
-                    Go to team 22 with REPLACE
+                    <span> Child of link </span>
+                    <span> Go to team 22 with REPLACE </span>
                 </Link>
             </p>
             <p>

@@ -124,11 +124,10 @@ export function Link(props) {
     delete processedProps.to;
     delete processedProps.replace;
 
-    return (
-        <a {...processedProps} href={to}>
-            {props.children}
-        </a>
-    );
+    return React.createElement('a', {
+        ...processedProps,
+        href: to
+    }, ...props.children);
 }
 
 export class Redirect extends WithHistory {
