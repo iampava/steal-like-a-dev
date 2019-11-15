@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
   "main": "src/index.js",
+  "private": false,
   "scripts": {
     "clear": "rm -rf dist/",
     "webpack": "webpack",
