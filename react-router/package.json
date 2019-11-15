@@ -1,34 +1,45 @@
 {
-    "name": "react-router",
-    "description": "Custom implementation of core react-router functionality, for learning/teaching purposes!",
-    "version": "1.0.0",
-    "author": {
-        "name": "Alexandru Pavaloi",
-        "email": "pava@iampava.com",
-        "url": "https://iampava.com"
-    },
-    "main": "src/index.js",
-    "scripts": {
-        "clear": "rm -rf dist/",
-        "webpack": "webpack",
-        "webpack-dev-server": "webpack-dev-server",
-        "test:dev": "npm run webpack-dev-server -- --env.mode development --hot",
-        "test:prod": "npm run clear && npm run webpack -- --env.mode production"
-    },
-    "repository": "https://github.com/iampava/steal-like-a-dev.git",
-    "bugs": "https://github.com/iampava/steal-like-a-dev/issues",
-    "homepage": "https://github.com/iampava/steal-like-a-dev/tree/master/react-router",
-    "devDependencies": {
-        "@babel/core": "^7.7.2",
-        "@babel/preset-env": "^7.7.1",
-        "@babel/preset-react": "^7.7.0",
-        "babel-loader": "^8.0.6",
-        "html-webpack-plugin": "^3.2.0",
-        "react": "^16.11.0",
-        "react-dom": "^16.11.0",
-        "webpack": "^4.41.2",
-        "webpack-cli": "^3.3.10",
-        "webpack-dev-server": "^3.9.0",
-        "webpack-merge": "^4.2.2"
-    }
+  "name": "@steal-like-a-dev/react-router",
+  "description": "Minimalist implementation of the popular react-router package.",
+  "version": "1.0.0",
+  "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
+  "main": "src/index.js",
+  "scripts": {
+    "clear": "rm -rf dist/",
+    "webpack": "webpack",
+    "webpack-dev-server": "webpack-dev-server",
+    "test:dev": "npm run webpack-dev-server -- --env.mode development --hot",
+    "test:prod": "npm run clear && npm run webpack -- --env.mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iampava/steal-like-a-dev.git"
+  },
+  "bugs": {
+    "url": "https://github.com/iampava/steal-like-a-dev/issues"
+  },
+  "homepage": "https://github.com/iampava/steal-like-a-dev/tree/master/react-router",
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "html-webpack-plugin": "^3.2.0",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "keywords": [
+    "react",
+    "react-router",
+    "javascript"
+  ],
+  "license": "MIT"
 }
