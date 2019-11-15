@@ -39,7 +39,7 @@ export class Switch extends WithHistory {
         const matchedRoute = this.props.children.find(child => {
             let path, exact = child.props.exact;
 
-            if(child.type === Route) {
+            if(child.type === Route || Route.isPrototypeOf(child.type)) {
                 path = child.props.path
             } else {
                 exact = child.props.exact && child.props.from
