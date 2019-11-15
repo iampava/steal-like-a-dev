@@ -53,8 +53,8 @@ function Root() {
 
             <div style={{ border: '5px dashed #2196f3', padding: '.5em', fontSize: '2em' }}>
                 <Switch>
-                    <Route  exact path={["/team/:teamId", "/another-one/:teamId"]} component={Team} />
-                    <Route  exact path="/user/:userId" component={User} />
+                    <Route exact path={['/team/:teamId', '/another-one/:teamId']} component={Team} />
+                    <Route exact path="/user/:userId" component={User} />
                     <Route component={NotFound} />
                 </Switch>
                 <Redirect to="/user/Bob" from="/" exact push />
