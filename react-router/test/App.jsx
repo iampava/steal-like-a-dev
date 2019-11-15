@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import { Switch, Route, Link, Redirect } from '../index';
+import { Switch, Route, Link, Redirect } from '../src/index';
 
 function Root() {
     return (
@@ -42,7 +42,7 @@ function Team(props) {
 }
 
 function User(props) {
-    return <p> Team: {props.match.params.userId} </p>;
+    return <p> User page: {props.match.params.userId} </p>;
 }
 
 function NotFound() {
