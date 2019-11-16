@@ -127,7 +127,7 @@ export function Link(props) {
     return React.createElement('a', {
         ...processedProps,
         href: to
-    }, ...props.children);
+    }, props.children);
 }
 
 export class Redirect extends WithHistory {

@@ -8,7 +8,7 @@ These docs are "stolen" from react-router, but I've left only the parts I've imp
 
 ### [~~`<BrowserRouter>`~~](https://reacttraining.com/react-router/web/api/BrowserRouter)
 
-I specifically built it for browsers so no need for this component.
+I specifically built just this routing method - using normal URL's instead of hashes - so no need for this component.
 
 ### [`<Route>`](https://reacttraining.com/react-router/web/api/Route)
 
