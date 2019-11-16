@@ -1,7 +1,7 @@
 {
   "name": "@steal-like-a-dev/react-router",
   "description": "Minimalist implementation of the popular react-router package.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
   "main": "src/index.js",
   "private": false,
