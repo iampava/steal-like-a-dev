@@ -37,13 +37,14 @@ export class Switch extends WithHistory {
 
     render() {
         const matchedRoute = this.props.children.find(child => {
-            let path, exact = child.props.exact;
+            let path,
+                exact = child.props.exact;
 
-            if(child.type === Route || Route.isPrototypeOf(child.type)) {
-                path = child.props.path
+            if (child.type === Route || Route.isPrototypeOf(child.type)) {
+                path = child.props.path;
             } else {
-                exact = child.props.exact && child.props.from
-                path = child.props.from || '/'
+                exact = child.props.exact && child.props.from;
+                path = child.props.from || '/';
             }
 
             const parsedPaths = parseRoutePaths(path, exact);
@@ -124,10 +125,14 @@ export function Link(props) {
     delete processedProps.to;
     delete processedProps.replace;
 
-    return React.createElement('a', {
-        ...processedProps,
-        href: to
-    }, props.children);
+    return React.createElement(
+        'a',
+        {
+            ...processedProps,
+            href: to
+        },
+        props.children
+    );
 }
 
 export class Redirect extends WithHistory {
@@ -138,7 +143,7 @@ export class Redirect extends WithHistory {
         if (!from) {
             return HistoryModule.go(to, state, push);
         } else {
-            let currentPathname = this.props.location ? this.props.location.pathname : window.location.pathname
+            let currentPathname = this.props.location ? this.props.location.pathname : window.location.pathname;
             let parsedFromPath = parseRoutePaths(from, exact);
             let shouldRedirect = parsedFromPath.find(({ regexp }) => regexp.exec(currentPathname));
 
@@ -207,11 +212,11 @@ function parseToProp(to) {
     } else if (typeof to === 'function') {
         to = to(window.location);
 
-        if(typeof to === 'string' || typeof to === 'object') {
-            return parseToProp(to)
+        if (typeof to === 'string' || typeof to === 'object') {
+            return parseToProp(to);
         }
 
-        throw new Error('react-router <Link>: the "to" function should return a string or an object')''
+        throw new Error('react-router <Link>: the "to" function should return a string or an object');
     }
 
     return [to || '#', null];
