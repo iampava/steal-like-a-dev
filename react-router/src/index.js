@@ -203,11 +203,15 @@ function parseToProp(to) {
         search = search || '';
         hash = hash ? `#${hash}` : '';
 
-        return [`${pathname}${to.search}${hash}`, state];
+        return [`${pathname}${search}${hash}`, state];
     } else if (typeof to === 'function') {
         to = to(window.location);
 
-        return [`${to.pathname}${to.search}${to.hash}`, to.state];
+        if(typeof to === 'string' || typeof to === 'object') {
+            return parseToProp(to)
+        }
+
+        throw new Error('react-router <Link>: the "to" function should return a string or an object')''
     }
 
     return [to || '#', null];
