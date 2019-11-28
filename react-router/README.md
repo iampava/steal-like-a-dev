@@ -5,7 +5,7 @@ Minimalist implementation of [react-router](https://github.com/ReactTraining/rea
 These docs are "stolen" from react-router, but I've left only the parts I've implemented in this package. Enjoy!
 
 
-## Instalation & usage
+## Installation & usage
 
 `$ npm install @steal-like-a-dev/react-router`
 

@@ -106,16 +106,17 @@ export class Route extends WithHistory {
 export function Link(props) {
     let [to, state] = parseToProp(props.to);
     let replace = props.replace || false;
+    let onClick = routerClick;
 
-    let onClick = function onLinkClick(e) {
+    function routerClick(e) {
         e.preventDefault();
         HistoryModule.go(to, state, replace);
-    };
+    }
 
     if (props.onClick) {
         onClick = function(e) {
             props.onClick(e);
-            onLinkClick(e);
+            routerClick(e);
         };
     }
 
