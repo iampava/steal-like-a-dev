@@ -1,7 +1,7 @@
 {
   "name": "@steal-like-a-dev/react-router",
   "description": "Minimalist implementation of the popular react-router package.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
   "main": "src/index.js",
   "private": false,
@@ -16,9 +16,9 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+  "peerDependencies": {
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "keywords": [
     "react",
