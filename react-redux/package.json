@@ -1,5 +1,5 @@
 {
-  "name": "@steal-like-a-dev/redux",
+  "name": "@steal-like-a-dev/react-redux",
   "description": "Minimalist implementation of the popular react-redux",
   "version": "0.0.1",
   "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
