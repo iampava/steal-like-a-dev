@@ -49,9 +49,7 @@ function connect(mapFn) {
         this.state = {
           mergedProps: this._mergeProps(mapFn(this.context.getState()))
         };
-      }
 
-      componentDidMount() {
         this.stateUnsubscribe = this.context.subscribe(state => {
           let newProps;
           try {
