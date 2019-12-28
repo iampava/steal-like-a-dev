@@ -94,7 +94,7 @@ function connect(mapFn, mergeProps = defaultMergeProps) {
             }
 
             render() {
-                return <Component {...this.state.mergedProps} />;
+                return React.createElement(Component, this.state.mergedProps);
             }
         }
 
