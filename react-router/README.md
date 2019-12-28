@@ -2,7 +2,7 @@
 
 Minimalist implementation of [react-router](https://github.com/ReactTraining/react-router). Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a package as well.
 
-These docs are "stolen" from react-router, but I've left only the parts I've implemented in this package. Enjoy!
+These docs are "stolen" from react-router, but I've left only the parts I've actually implemented. Happy stealing!
 
 
 ## Installation & usage
@@ -94,7 +94,7 @@ Renders the first `<Route>` or `<Redirect>` that matches the location.
 
 `<Switch>` is unique in that it renders a route exclusively. In contrast, every <Route> that matches the location renders inclusively. Consider these routes:
 
-### Test project
+## Test project
 
 As you can see, there's also a test project included in this repo. You can run it with
 

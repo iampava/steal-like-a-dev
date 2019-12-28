@@ -1,7 +1,7 @@
 {
   "name": "@steal-like-a-dev/react-redux",
   "description": "Minimalist implementation of the popular react-redux",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
   "main": "src/index.js",
   "private": false,
