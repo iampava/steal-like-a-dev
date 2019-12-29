@@ -51,14 +51,13 @@ function connect(mapFn, mergeProps = defaultMergeProps) {
                     stateProps = mapFn(this.context.getState());
                 }
 
-                this.state = {
-                    mergedProps: mergeProps(
-                        Object.assign(stateProps, {
-                            dispatch: this.context.dispatch
-                        }),
-                        this.props
-                    )
-                };
+                this.state = mergeProps(
+                    Object.assign(stateProps, {
+                        dispatch: this.context.dispatch
+                    }),
+                    this.props
+                );
+                this.stateCopy = { ...this.state };
 
                 if (mapFn !== null && mapFn !== undefined) {
                     this.stateUnsubscribe = this.context.subscribe(state => {
@@ -75,8 +74,9 @@ function connect(mapFn, mergeProps = defaultMergeProps) {
                         }
 
                         Object.keys(newProps).every(key => {
-                            if (newProps[key] !== this.state.mergedProps[key]) {
-                                this.setState({ mergedProps: newProps });
+                            if (newProps[key] !== this.state[key]) {
+                                this.stateCopy = { ...newProps };
+                                this.setState(newProps);
 
                                 return false;
                             }
@@ -87,6 +87,24 @@ function connect(mapFn, mergeProps = defaultMergeProps) {
                 }
             }
 
+            componentDidUpdate(prevProps) {
+                let propsDidChange = false;
+
+                for (let key in prevProps) {
+                    if (prevProps[key] !== this.props[key]) {
+                        propsDidChange = true;
+                        break;
+                    }
+                }
+
+                if (propsDidChange) {
+                    let mergedProps = Object.assign({}, this.stateCopy, this.props);
+
+                    this.stateCopy = { ...mergedProps };
+                    this.setState(mergedProps);
+                }
+            }
+
             componentWillUnmount() {
                 if (this.stateUnsubscribe) {
                     this.stateUnsubscribe();
@@ -94,7 +112,7 @@ function connect(mapFn, mergeProps = defaultMergeProps) {
             }
 
             render() {
-                return React.createElement(Component, this.state.mergedProps);
+                return React.createElement(Component, this.state);
             }
         }
 
