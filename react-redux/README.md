@@ -17,6 +17,7 @@ $ npm install @steal-like-a-dev/react-redux
 import { 
     createStore,
     combineReducers,
+    applyMiddleware,
     connect,
     Provider
  } from '@steal-like-a-dev/react-redux';
@@ -35,7 +36,7 @@ Creates a Redux store that holds the complete state tree of your app. There shou
 
 2. [`preloadedState`] (any): The initial state. You may optionally specify it to hydrate the state from the server in universal apps, or to restore a previously serialized user session. If you produced `reducer` with [`combineReducers`](https://redux.js.org/api/combinereducers), this must be a plain object with the same shape as the keys passed to it. Otherwise, you are free to pass anything that your `reducer` can understand.
 
-3. ~~[`enhancer`] (Function)~~: not implemented
+3. [`enhancer`] (Function): The store enhancer. You may optionally specify it to enhance the store with third-party capabilities such as middleware, time travel, persistence, etc. The only store enhancer that ships with Redux is [`applyMiddleware()`](https://redux.js.org/api/applymiddleware/).
 
 **Returns**
 
@@ -91,6 +92,18 @@ rootReducer = combineReducers({potato: potatoReducer, tomato: tomatoReducer})
 **Returns**
 
 (Function): A reducer that invokes every reducer inside the reducers object, and constructs a state object with the same shape.
+
+### [applyMiddleware(...middleware)](https://redux.js.org/api/applymiddleware/)
+
+Middleware is the suggested way to extend Redux with custom functionality. Middleware lets you wrap the store's dispatch method for fun and profit. The key feature of middleware is that it is composable. Multiple middleware can be combined together, where each middleware requires no knowledge of what comes before or after it in the chain.
+
+**Arguments**
+
+`...middleware` (arguments): Functions that conform to the Redux middleware API. Each middleware receives [Store](https://redux.js.org/api/store/)'s [dispatch](https://redux.js.org/api/store/#dispatchaction) and [getState](https://redux.js.org/api/store/#getState) functions as named arguments, and returns a function. That function will be given the `next` middleware's dispatch method, and is expected to return a function of `action` calling `next(action)` with a potentially different argument, or at a different time, or maybe not calling it at all. The last middleware in the chain will receive the real store's [dispatch](https://redux.js.org/api/store/#dispatchaction) method as the `next` parameter, thus ending the chain. So, the middleware signature is `({ getState, dispatch }) => next => action`.
+
+**Returns**
+
+(Function) A store enhancer function which you need to pass as to `createStore()` as the last `enhancer` argument.
 
 
 ### [connect(mapStateToProps?, ~~mapDispatchToProps?~~, mergeProps?, ~~options?~~)](https://react-redux.js.org/api/connect)
