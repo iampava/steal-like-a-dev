@@ -16,7 +16,7 @@
     "test:prod": "npm run clear && npm run webpack -- --env.mode production"
   },
   "dependencies": {
-    "@steal-like-a-dev/react-redux": "^1.1.0",
+    "@steal-like-a-dev/react-redux": "^1.2.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "redux-logger": "^3.0.6",
