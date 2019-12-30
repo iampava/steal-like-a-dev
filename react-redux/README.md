@@ -26,7 +26,7 @@ import {
 ## API
 
 
-### [createStore(reducer, [preloadedState], ~~[enhancer]~~)](https://redux.js.org/api/createstore)
+### [createStore(reducer, [preloadedState], [enhancer])](https://redux.js.org/api/createstore)
 
 Creates a Redux store that holds the complete state tree of your app. There should only be a single store in your app.
 
