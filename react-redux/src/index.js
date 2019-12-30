@@ -8,7 +8,7 @@ function createStore(reducer, preloadedState, enhancer) {
 
     if (typeof enhancer === 'function') {
         dispatch = function enhancedDispatch(action) {
-            enhancer(action, { getState, dispatch: actualDispatch });
+            return enhancer(action, { getState, dispatch: actualDispatch, enhancedDispatch });
         };
     }
 
@@ -25,6 +25,8 @@ function createStore(reducer, preloadedState, enhancer) {
     function actualDispatch(action) {
         state = reducer(state, action);
         listeners.forEach(cb => cb(state));
+
+        return action;
     }
 
     function subscribe(cb) {
@@ -50,24 +52,23 @@ function combineReducers(reducers) {
 }
 
 function applyMiddleware(...middlewares) {
-    return function(action, { getState, dispatch }) {
+    return function(action, { getState, dispatch, enhancedDispatch }) {
         let i = 0;
 
-        middlewares[i]({ getState, dispatch })(function nextDispatch(action) {
+        return middlewares[i]({ getState, dispatch: enhancedDispatch })(function nextDispatch(action) {
             i++;
+
             if (i === middlewares.length) {
-                dispatch(action);
+                return dispatch(action);
             } else if (i === middlewares.length - 1) {
-                middlewares[i]({ getState, dispatch })(dispatch)(action);
+                return middlewares[i]({ getState, dispatch: enhancedDispatch })(dispatch)(action);
             } else {
-                middlewares[i]({ getState, dispatch })(nextDispatch)(action);
+                return middlewares[i]({ getState, dispatch: enhancedDispatch })(nextDispatch)(action);
             }
         })(action);
-        for (let i = 1; i < middlewares.length - 1; i++) {}
     };
 }
 
-/******************************** REACT */
 const ReactReduxContext = React.createContext();
 
 function connect(mapFn, mergeProps = defaultMergeProps) {

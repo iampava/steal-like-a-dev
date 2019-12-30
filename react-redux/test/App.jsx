@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { connect, Provider } from './react-redux';
+import { connect, Provider } from '@steal-like-a-dev/react-redux';
 
 import state from './store/store';
 import { deleteUser, addedUser } from './store/users/users.actions';
@@ -50,12 +50,13 @@ function headerMapStateToProps(state) {
 function Body(props) {
     function addUser(e) {
         e.preventDefault();
-        props.dispatch(
+        let dispatchResult = props.dispatch(
             addedUser({
                 id: Math.floor(Math.random() * 10000),
                 name: e.target.name.value
             })
         );
+        console.log(dispatchResult);
 
         e.target.reset();
     }
@@ -73,7 +74,14 @@ function Body(props) {
                 </label>
                 <button type="submit"> Add </button>
             </form>
-            <button type="button" onClick={() => props.dispatch(getAsyncUser())}>
+            <button
+                type="button"
+                onClick={() =>
+                    props.dispatch(getAsyncUser()).then(() => {
+                        console.log('DONE async');
+                    })
+                }
+            >
                 Add async user
             </button>
             <br /> <br /> <br /> <br />
@@ -86,15 +94,19 @@ function getAsyncUser() {
     return function(dispatch) {
         console.log('thunk: Starting to generate user');
 
-        setTimeout(() => {
-            dispatch(
-                addedUser({
-                    id: Math.floor(Math.random() * 10000),
-                    name: 'Random user'
-                })
-            );
-            console.log('thunk: Finished & dispatched user');
-        }, 1000);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                dispatch(
+                    addedUser({
+                        id: Math.floor(Math.random() * 10000),
+                        name: 'Random user'
+                    })
+                );
+                console.log('thunk: Finished & dispatched user');
+
+                resolve();
+            }, 1000);
+        });
     };
 }
 
