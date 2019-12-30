@@ -1,6 +1,6 @@
 import { USER_ACTIONS } from './users.actions';
 
-const DEFAULT_USERS_STATE = undefined;
+const DEFAULT_USERS_STATE = [];
 
 function usersReducer(state = DEFAULT_USERS_STATE, { type, payload }) {
     switch (type) {

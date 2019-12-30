@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { connect, Provider } from '@steal-like-a-dev/react-redux';
+import { connect, Provider } from './react-redux';
 
 import state from './store/store';
 import { deleteUser, addedUser } from './store/users/users.actions';
@@ -9,6 +9,9 @@ import { changeBackground } from './store/workspace/workspace.actions';
 let ConnectedHeader = connect(headerMapStateToProps)(Header);
 let ConnectedBody = connect(bodyMapStateToProps)(Body);
 
+render(<Root />, document.getElementById('app'));
+
+/*********************************************************8 */
 function Root() {
     return (
         <Provider store={state}>
@@ -19,7 +22,6 @@ function Root() {
 }
 
 function Header(props) {
-    console.log('header did render');
     return (
         <header>
             <h1> {props.title}</h1>
@@ -62,8 +64,6 @@ function Body(props) {
         props.dispatch(changeBackground(e.target.value));
     }
 
-    console.log('body did render');
-
     return (
         <>
             <form onSubmit={addUser} style={{ color: props.color }}>
@@ -73,10 +73,29 @@ function Body(props) {
                 </label>
                 <button type="submit"> Add </button>
             </form>
+            <button type="button" onClick={() => props.dispatch(getAsyncUser())}>
+                Add async user
+            </button>
             <br /> <br /> <br /> <br />
             <input value={props.color} type="color" onChange={e => onColorChange(e)} />
         </>
     );
+}
+
+function getAsyncUser() {
+    return function(dispatch) {
+        console.log('thunk: Starting to generate user');
+
+        setTimeout(() => {
+            dispatch(
+                addedUser({
+                    id: Math.floor(Math.random() * 10000),
+                    name: 'Random user'
+                })
+            );
+            console.log('thunk: Finished & dispatched user');
+        }, 1000);
+    };
 }
 
 function bodyMapStateToProps(state) {
@@ -84,5 +103,3 @@ function bodyMapStateToProps(state) {
         color: state.workspace.color
     };
 }
-
-render(<Root />, document.getElementById('app'));

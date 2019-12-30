@@ -18,7 +18,8 @@
   "dependencies": {
     "@steal-like-a-dev/react-redux": "^1.1.0",
     "react": "^16.11.0",
-    "react-dom": "^16.11.0"
+    "react-dom": "^16.11.0",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",

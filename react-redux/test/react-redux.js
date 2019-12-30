@@ -67,7 +67,6 @@ function applyMiddleware(...middlewares) {
     };
 }
 
-/******************************** REACT */
 const ReactReduxContext = React.createContext();
 
 function connect(mapFn, mergeProps = defaultMergeProps) {
