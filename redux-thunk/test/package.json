@@ -16,11 +16,12 @@
     "test:prod": "npm run clear && npm run webpack -- --env.mode production"
   },
   "dependencies": {
+    "@steal-like-a-dev/redux-thunk": "^1.0.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "redux-thunk": "^2.3.0",
     "react-redux": "^7.1.3",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
