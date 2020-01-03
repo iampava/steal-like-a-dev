@@ -11,24 +11,23 @@ $ npm install @steal-like-a-dev/redux-thunk
 ```
 
 ```javascript
-import { createStore, applyMiddleware } from 'redux';
-import thunk from '@steal-like-a-dev/redux-thunk';
-import rootReducer from './reducers/index';
+import { createStore, applyMiddleware } from "redux";
+import thunk from "@steal-like-a-dev/redux-thunk";
+import rootReducer from "./reducers/index";
 
-const INCREMENT_COUNTER = 'INCREMENT_COUNTER';
+const INCREMENT_COUNTER = "INCREMENT_COUNTER";
 
 let store = createStore(rootReducer, applyMiddleware(thunk));
-store.dispatch(incrementAsync())
-
+store.dispatch(incrementAsync());
 
 function increment() {
   return {
-    type: INCREMENT_COUNTER,
+    type: INCREMENT_COUNTER
   };
 }
 
 function incrementAsync() {
-  return (dispatch) => {
+  return dispatch => {
     setTimeout(() => {
       // Yay! Can invoke sync or async actions with `dispatch`
       dispatch(increment());
@@ -36,7 +35,6 @@ function incrementAsync() {
   };
 }
 ```
-
 
 ## API
 
@@ -49,7 +47,7 @@ Redux Thunk supports injecting a custom argument using the `withExtraArgument` f
 ```javascript
 const store = createStore(
   reducer,
-  applyMiddleware(thunk.withExtraArgument(api)),
+  applyMiddleware(thunk.withExtraArgument(api))
 );
 
 // later
@@ -64,12 +62,12 @@ function fetchUser(id) {
 
 As you can see, there's also a test project included in this repo. You can run it with
 
-`npm run test:dev` 
+`npm run test:dev`
 
-  or 
+or
 
 `npm run test:prod`
 
 <hr/>
 
-<p align="center"> Made for learning/teaching purposes by [Pava](https://iampava.com)</p>
+<p align="center"> Made for learning/teaching purposes by <a href="https://iampava.com">Pava</a></p>
