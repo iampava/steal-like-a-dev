@@ -1,0 +1,27 @@
+{
+    "name": "@steal-like-a-dev/redux-thunk",
+    "description": "Minimalist implementation of the popular redux-thunk",
+    "version": "1.0.0",
+    "author": "Alexandru Pavaloi <pava@iampava.com> (https://iampava.com)",
+    "main": "src/index.js",
+    "private": false,
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/iampava/steal-like-a-dev.git"
+    },
+    "bugs": {
+      "url": "https://github.com/iampava/steal-like-a-dev/issues"
+    },
+    "homepage": "https://github.com/iampava/steal-like-a-dev/tree/master/redux-thunk",
+    "peerDependencies": {
+        "redux": "^4.0.5"
+    },
+    "keywords": [
+      "react",
+      "react-redux",
+      "redux-thunk",
+      "javascript"
+    ],
+    "license": "MIT"
+  }
+  

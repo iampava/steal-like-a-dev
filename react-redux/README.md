@@ -2,7 +2,7 @@
 
 Minimalist implementation of [react-redux](https://github.com/reduxjs/react-redux) and [redux](https://github.com/reduxjs/redux). This is an all-in-one package, containining functionalities from both libraries so that it's easily compatible with React apps.
 
-Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a package as well.
+Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a [NPM package](https://www.npmjs.com/package/@steal-like-a-dev/react-redux) as well.
 
 These docs are "stolen" from the original libraries, but I've left only the parts I've actually implemented. Happy stealing!
 

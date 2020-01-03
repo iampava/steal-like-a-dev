@@ -1,6 +1,6 @@
 # react-router | steal-like-a-dev
 
-Minimalist implementation of [react-router](https://github.com/ReactTraining/react-router). Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a package as well.
+Minimalist implementation of [react-router](https://github.com/ReactTraining/react-router). Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a [NPM package](https://www.npmjs.com/package/@steal-like-a-dev/react-router) as well.
 
 These docs are "stolen" from react-router, but I've left only the parts I've actually implemented. Happy stealing!
 

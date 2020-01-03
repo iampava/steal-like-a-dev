@@ -1,3 +1,4 @@
+// import { combineReducers } from 'redux';
 import { combineReducers } from '@steal-like-a-dev/react-redux';
 
 import users from './users/users.reducer';
