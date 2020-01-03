@@ -13,6 +13,9 @@
       "url": "https://github.com/iampava/steal-like-a-dev/issues"
     },
     "homepage": "https://github.com/iampava/steal-like-a-dev/tree/master/redux-thunk",
+    "directories": {
+      "test": "test"
+    },
     "peerDependencies": {
         "redux": "^4.0.5"
     },
