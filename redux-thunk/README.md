@@ -2,7 +2,7 @@
 
 Minimalist implementation of [redux-thunk](https://github.com/reduxjs/redux-thunk). Primarily for teaching purposes in my [StealLikeADev.com](https://StealLikeADev.com) tutorial series, BUT since it's actually very usable, I decided to publish it as a [package on NPM](https://www.npmjs.com/package/@steal-like-a-dev/redux-thunk) as well.
 
-These docs are "stolen" from the original library. Happy stealing!
+These docs are "stolen" from the original library, but I kept only the parts I've implemented, which in this case is pretty much anything. Happy stealing!
 
 ## Installation & usage
 
@@ -39,6 +39,10 @@ function incrementAsync() {
 ## API
 
 ### Composition
+
+Any return value from the inner function will be available as the return value of dispatch itself. This is convenient for orchestrating an asynchronous control flow with thunk action creators dispatching each other and returning Promises to wait for each other’s completion:
+
+For more details on Composition check the [official docs](https://github.com/reduxjs/redux-thunk#composition).
 
 ### Injecting a Custom Argument
 
