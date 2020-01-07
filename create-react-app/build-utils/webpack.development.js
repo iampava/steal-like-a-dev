@@ -5,7 +5,7 @@ module.exports = () => ({
     output: {
         path: path.resolve(__dirname, '../build'),
         publicPath: '/',
-        filename: 'static/js/[name].[hash].js'
+        filename: 'static/js/[name].js'
     },
     module: {
         rules: [

@@ -28,7 +28,7 @@ module.exports = ({mode} = {mode: 'production'}) => {
                             {
                                 loader: 'file-loader',
                                 options: {
-                                    name: 'static/media/[name].[contenthash].[ext]'
+                                    name: 'static/media/[name].[contenthash:8].[ext]'
                                 }
                             }
                         ]

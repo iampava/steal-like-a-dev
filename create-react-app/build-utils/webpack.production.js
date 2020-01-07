@@ -4,23 +4,37 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = () => ({
-    devtool: 'none',
+    devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, '../build'),
         publicPath: '/',
-        filename: 'static/js/[name].[contenthash].js'
+        filename: 'static/js/[name].[contenthash:8].js',
+        chunkFilename: 'static/js/[id].[contenthash:8].js'
     },
     module: {
         rules: [
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: { sourceMap: true }
+                    }
+                ]
             }
         ]
     },
     plugins: [
+        new OptimizeCSSAssetsPlugin({
+            cssProcessorOptions: {
+                map: {
+                    inline: false
+                }
+            }
+        }),
         new MiniCssExtractPlugin({
-            filename: 'static/css/[name].[contenthash].css'
+            filename: 'static/css/[name].[contenthash:8].css'
         }),
         new CopyWebpackPlugin([
             {
@@ -28,7 +42,6 @@ module.exports = () => ({
                 to: '.',
                 ignore: ['service-worker.js']
             }
-        ]),
-        new OptimizeCSSAssetsPlugin()
+        ])
     ]
 });
