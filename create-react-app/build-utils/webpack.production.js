@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-module.exports = () => ({
+module.exports = {
     devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, '../build'),
@@ -27,9 +27,11 @@ module.exports = () => ({
     },
     plugins: [
         new OptimizeCSSAssetsPlugin({
+            // css-nano docs
             cssProcessorOptions: {
                 map: {
-                    inline: false
+                    inline: false,
+                    annotation: true
                 }
             }
         }),
@@ -44,4 +46,4 @@ module.exports = () => ({
             }
         ])
     ]
-});
+};

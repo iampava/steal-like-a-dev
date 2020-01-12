@@ -3,10 +3,9 @@ const webpack = require('webpack');
 const webpackMerge = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ResourcesManifestPlugin = require('resources-manifest-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-const modeConfig = env => require(`${path.resolve(__dirname, 'build-utils')}/webpack.${env}`)(env);
-
-module.exports = ({mode} = {mode: 'production'}) => {
+module.exports = ({ mode } = { mode: 'production' }) => {
     return webpackMerge(
         {
             mode,
@@ -14,7 +13,12 @@ module.exports = ({mode} = {mode: 'production'}) => {
             optimization: {
                 splitChunks: {
                     chunks: 'all'
-                }
+                },
+                minimizer: [
+                    new TerserPlugin({
+                        sourceMap: true
+                    })
+                ]
             },
             module: {
                 rules: [
@@ -28,7 +32,8 @@ module.exports = ({mode} = {mode: 'production'}) => {
                             {
                                 loader: 'file-loader',
                                 options: {
-                                    name: 'static/media/[name].[contenthash:8].[ext]'
+                                    name:
+                                        'static/media/[name].[contenthash:8].[ext]'
                                 }
                             }
                         ]
@@ -61,6 +66,6 @@ module.exports = ({mode} = {mode: 'production'}) => {
                 new webpack.ProgressPlugin()
             ]
         },
-        modeConfig(mode)
+        require(`./build-utils/webpack.${mode}`)
     );
 };

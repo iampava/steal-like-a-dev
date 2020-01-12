@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = () => ({
+module.exports = {
     devtool: 'source-map',
     output: {
         path: path.resolve(__dirname, '../build'),
@@ -15,4 +15,4 @@ module.exports = () => ({
             }
         ]
     }
-});
+};
