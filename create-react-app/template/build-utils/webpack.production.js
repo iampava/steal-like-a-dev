@@ -2,6 +2,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const Autoprefixer = require('autoprefixer');
 
 module.exports = {
     devtool: 'source-map',
@@ -20,6 +21,12 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: { sourceMap: true }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: [new Autoprefixer()]
+                        }
                     }
                 ]
             }
