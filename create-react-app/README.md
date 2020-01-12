@@ -19,7 +19,7 @@ Install the package globally so that it is available from everywhere in your dev
 and then run the following command to create a new app called **my-app** in the current folder.
 
 ```
-@steal-like-a-dev/create-react-app my-app
+stolen-create-react-app my-app
 cd my-app
 npm start
 ```
