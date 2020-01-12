@@ -1,13 +1,16 @@
 {
     "name": "@steal-like-a-dev/create-react-app",
     "description": "Minimalist implementation of the popular create-react-app package.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": {
         "name": "Alexandru Pavaloi",
         "email": "pava@iampava.com",
         "url": "https://iampava.com"
     },
     "main": "src/index.js",
+    "bin": {
+        "@steal-like-a-dev/create-react-app": "./bin/index.js"
+    },
     "private": false,
     "repository": {
         "type": "git",
