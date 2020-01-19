@@ -3,6 +3,10 @@ import React from 'react';
 // import styled, { keyframes } from "styled-components";
 import styled, { keyframes } from '@steal-like-a-dev/styled-components';
 
+const StyledApp = styled(App)`
+    height: 100vh;
+`;
+
 const AppHeader = styled.header`
     display: flex;
     flex-flow: row nowrap;
@@ -10,9 +14,10 @@ const AppHeader = styled.header`
     align-items: center;
     background: palevioletred;
     padding: 0 1em;
+    height: 50px;
 `;
 
-const HeaderLink = styled.a`
+const WhiteLink = styled.a`
     color: #fff;
     text-decoration: none;
     font-family: inherit;
@@ -22,6 +27,7 @@ const HeaderLink = styled.a`
 
 const Main = styled.main`
     padding: 0 0 0 1em;
+    min-height: calc(100vh - 100px);
 `;
 
 /** Adapting based on props & Extending Styles */
@@ -70,17 +76,24 @@ const Rotate = styled.div`
     font-size: 1.2rem;
 `;
 
+const AppFooter = styled.footer`
+    text-align: center;
+    padding: 0.5em 1em;
+    background: palevioletred;
+    height: 50px;
+`;
+
 /** App component */
-function App() {
+function App({className}) {
     return (
-        <div className="App">
+        <div className={`App ${className}`}>
             <AppHeader>
                 <img height="60" src="https://styled-components.com/nav-logo.png" alt="logo" />
-                <HeaderLink href="https://github.com/iampava/steal-like-a-dev">GitHub</HeaderLink>
+                <WhiteLink href="https://github.com/iampava/steal-like-a-dev">GitHub</WhiteLink>
             </AppHeader>
             <Main>
                 <section>
-                    <h2> Adapting based on props </h2>
+                    <h2 style={{marginTop: 0}}> Adapting based on props </h2>
                     <Button>Normal</Button>
                     <Button primary>Primary</Button>
                 </section>
@@ -108,8 +121,12 @@ function App() {
                     <Rotate>&lt; 💅 &gt;</Rotate>
                 </section>
             </Main>
+            <AppFooter>
+                Made with <span style={{ color: 'red' }}>❤</span> by{' '}
+                <WhiteLink href="https://iampava.com"> Pava </WhiteLink>
+            </AppFooter>
         </div>
     );
 }
 
-export default App;
+export default StyledApp;
