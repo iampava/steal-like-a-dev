@@ -7,6 +7,12 @@ let insertedStyles = [];
 let styleEl = createStyleEl();
 document.head.appendChild(styleEl);
 
+let proxyHandler = {
+    get(obj, prop) {
+        return taggedTemplateFunctionFactory(prop);
+    }
+};
+
 export default new Proxy(styled, proxyHandler);
 export const css = (strings, ...rest) => computeFinalCSS(strings, rest, currentComponentProps);
 export const keyframes = ([cssString]) => {
@@ -25,12 +31,6 @@ export const keyframes = ([cssString]) => {
 function styled(ReactComponent) {
     return taggedTemplateFunctionFactory(ReactComponent);
 }
-
-let proxyHandler = {
-    get(obj, prop) {
-        return taggedTemplateFunctionFactory(prop);
-    }
-};
 
 function taggedTemplateFunctionFactory(tagNameOrReactComponent) {
     return (strings, ...rest) => {
@@ -93,6 +93,7 @@ function createStyleEl() {
 
     return styleEl;
 }
+
 function getHash(content, pre = 'styled') {
     return `${pre}__${SHA256(content)
         .toString()

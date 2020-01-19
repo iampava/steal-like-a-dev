@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import styled, { keyframes } from "styled-components";
-import styled, { keyframes } from './stolen-styled-components';
+import styled, { keyframes } from '@steal-like-a-dev/styled-components';
 
 const AppHeader = styled.header`
     display: flex;
