@@ -1,0 +1,15 @@
+{
+    "presets": [
+        "@babel/preset-react",
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "browsers": "last 2 versions"
+                },
+                // Do not transform different module types to one-another!
+                "modules": false
+            }
+        ]
+    ]
+}
