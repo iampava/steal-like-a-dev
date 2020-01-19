@@ -1,4 +1,4 @@
-const VERSION = 43;
+const VERSION = 205;
 const CACHE_NAME = `stolen-cra-cache-${VERSION}`;
 const BUILD_FOLDER = '';
 const PRECACHE_MANIFEST = `${BUILD_FOLDER}/resources-manifest.json`;

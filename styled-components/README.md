@@ -4,4 +4,12 @@ Minimalist implementation of [styled-components](https://github.com/styled-compo
 
 These docs are "stolen" from styled-components, but I've left only the parts I've actually implemented. Happy stealing!
 
-## ⚠ Still in progress
+## Installation & usage
+
+`$ npm install @steal-like-a-dev/styled-components`
+
+```javascript
+import styled, { css, keyframes } from '@steal-like-a-dev/styled-components';
+```
+
+## API

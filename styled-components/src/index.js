@@ -1,95 +1,111 @@
-// ✅ styled.whatever``
-// styled(constructor)``
-//✅  as="" // dynamically change
-// ✅❌ - comsi-comsa Note how the inputColor prop is not passed to the DOM, but type and defaultValue are. That is styled-components being smart enough to filter non-standard attributes automatically for you.
-
-import React from "react";
-import SHA256 from "crypto-js/sha256";
+import React from 'react';
+import SHA256 from 'crypto-js/sha256';
 
 let currentComponentProps = {};
+let insertedStyles = [];
 
-function styled() {}
+let styleEl = createStyleEl();
+document.head.appendChild(styleEl);
 
-let handler = {
-  get: function(obj, prop) {
-    return function(strings, ...rest) {
-      return props => {
-        currentComponentProps = props;
-
-        let tagToRender = props.as || prop;
-        let cssString = computeFinalCSS(strings, rest, props);
-        let styledClassName = getHash(cssString);
-
-        addStyle(styledClassName, cssString);
-
-        currentComponentProps = {};
-
-        return React.createElement(tagToRender, {
-          ...sanitizeProps(props, tagToRender),
-          className: props.className
-            ? `${props.className} ${styledClassName}`
-            : styledClassName
-        });
-      };
+export default new Proxy(styled, proxyHandler);
+export const css = (strings, ...rest) => computeFinalCSS(strings, rest, currentComponentProps);
+export const keyframes = ([cssString]) => {
+    const animationName = getHash(cssString, 'animation');
+    let keyframeObject = {
+        [Symbol.toPrimitive]() {
+            appendStyle(animationName, `@keyframes ${animationName} { ${cssString} }`);
+            return animationName;
+        }
     };
-  }
+
+    return keyframeObject;
 };
 
+/** Functions */
+function styled(ReactComponent) {
+    return taggedTemplateFunctionFactory(ReactComponent);
+}
+
+let proxyHandler = {
+    get(obj, prop) {
+        return taggedTemplateFunctionFactory(prop);
+    }
+};
+
+function taggedTemplateFunctionFactory(tagNameOrReactComponent) {
+    return (strings, ...rest) => {
+        return props => {
+            currentComponentProps = props;
+
+            let tagToRender =
+                typeof tagNameOrReactComponent === 'function'
+                    ? tagNameOrReactComponent
+                    : props.as || tagNameOrReactComponent;
+            let cssString = computeFinalCSS(strings, rest, props);
+            let styledClassName = getHash(cssString);
+
+            appendStyle(styledClassName, `.${styledClassName} { ${cssString} }`);
+
+            currentComponentProps = {};
+
+            return React.createElement(tagToRender, {
+                ...sanitizeProps(props, tagToRender),
+                className: props.className ? `${props.className} ${styledClassName}` : styledClassName
+            });
+        };
+    };
+}
+
 function computeFinalCSS(strings, rest, props) {
-  let result = "";
+    let result = '';
 
-  strings.forEach((string, index) => {
-    result += string;
+    strings.forEach((string, index) => {
+        result += string;
 
-    if (rest.length <= index) {
-      return;
-    }
+        if (rest.length <= index) {
+            return;
+        }
 
-    if (typeof rest[index] === "function") {
-      result += rest[index](props);
-    } else {
-      result += rest[index];
-    }
-  });
+        if (typeof rest[index] === 'function') {
+            result += rest[index](props);
+        } else {
+            result += rest[index];
+        }
+    });
 
-  return result;
+    return result;
 }
 
-function addStyle(className, css) {
-  if (document.head.querySelector(`style[data-class="${className}"]`)) {
-    console.info(`ℹ Already inserted style for this className: ${className}`);
-    return;
-  }
+function appendStyle(styleId, css) {
+    if (insertedStyles.includes(styleId)) {
+        console.info(`ℹ Already inserted style for this id: ${styleId}`);
+        return;
+    }
 
-  let styleElement = document.createElement("style");
-  styleElement.setAttribute("data-class", className);
-  styleElement.innerHTML = `.${className} { ${css} }`;
-
-  document.head.appendChild(styleElement);
+    insertedStyles.push(styleId);
+    styleEl.innerHTML += css;
 }
 
-function getHash(content) {
-  if (Array.isArray(content)) {
-    content = content.join("__");
-  }
+function createStyleEl() {
+    const styleEl = document.createElement('style');
+    styleEl.setAttribute('data-styled-components', true);
+    styleEl.setAttribute('type', 'text/css');
 
-  return `styled__${SHA256(content)
-    .toString()
-    .substr(0, 8)}`;
+    return styleEl;
+}
+function getHash(content, pre = 'styled') {
+    return `${pre}__${SHA256(content)
+        .toString()
+        .substr(0, 8)}`;
 }
 
 function sanitizeProps(props, tagToRender) {
-  if (typeof tagToRender === "string") {
-    let newProps = Object.assign({}, props);
-    delete newProps.as;
+    if (typeof tagToRender === 'string') {
+        let newProps = Object.assign({}, props);
+        delete newProps.as;
 
-    return newProps;
-  }
+        return newProps;
+    }
 
-  return props;
+    return props;
 }
-
-export default new Proxy(styled, handler);
-export const css = (strings, ...rest) =>
-  computeFinalCSS(strings, rest, currentComponentProps);
-
