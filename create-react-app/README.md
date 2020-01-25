@@ -39,6 +39,11 @@ Your environment will have everything you need to build a modern single-page Rea
 * A live development server that warns about common mistakes.
 * A build script to bundle JS, CSS, and images for production, with hashes and sourcemaps.
 * An offline-first service worker and a web app manifest, meeting all the Progressive Web App criteria. (Note: Using the service worker is opt-in).
+
+## Further development & bugfixing
+
+I'll try and keep the code and React dependencies up-to-date, so I'll have a look on this package once in a while. However, I won't be adding any new features because, well... there's already the original out there. But I'll be fixing bugs regarding features already implemented.
+
 <hr/>
 
 <p align="center"> Made with ❤ by <a href="https://iampava.com"> Pava </a></p>

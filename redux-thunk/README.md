@@ -72,6 +72,10 @@ or
 
 `npm run test:prod`
 
+## Further development & bugfixing
+
+I won't be developing this library any futher because, well... there's already the original out there. But I'll be fixing bugs regarding features already implemented.
+
 <hr/>
 
 <p align="center"> Made for learning/teaching purposes by <a href="https://iampava.com">Pava</a></p>
