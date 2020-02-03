@@ -68,15 +68,17 @@ location: {
 },
 ```
 
-#### history: { push: Function, replace: Function }
+* #### history: { push: Function, replace: Function }
 
 An object with 2 functions used for navigating to a different page.
 
-**path(to: string, state?: any, replace?: boolean)** -> navigate forward to `to` URL, with an optional state that will be passed to the next route.
-
-The **replace** param specifies if this navigation should replace the current one or not. This affects the order of the pages when navigating via the browser buttons (backward - forward). Default: `false`.
-
-**replace(to: string, state?: any)** -> navigate to `to` URL by replacing the current location in the navigation stack.
+```javascript
+history: {
+  push(to: string, state?: any, replace?: boolean = false), // navigate forward to `to` URL, with an optional state that will be passed to the next route.
+  
+  replace(to: string, state?: any) // navigate to `to` URL by replacing the current location in the navigation stack.
+}
+```
 
 ### [`<Link>`](https://reacttraining.com/react-router/web/api/Link)
 
