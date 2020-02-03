@@ -23,28 +23,28 @@ I specifically built just this routing method - using normal URL's instead of ha
 
 ### Props:
 
-#### component
+* #### component
 
 A React component to render only when the location matches. It will be rendered with route props.
 
-#### path: string | string[]
+* #### path: string | string[]
 
 Any valid URL path or array of paths.
 
 ! Routes without a path always match.
 
-#### exact: boolean
+* #### exact: boolean
 
 When true, will only match if the path matches the location.pathname exactly.
 
 ### Props passed to rendered component
 
-#### match: { params: Object }
+* #### match: { params: Object }
 
 An object with one single property - **params** - which contains the values of all the matched params in the pathname. For example:
 
 ```jsx
-<Route path="/groups/:groupId/exercise/:exerciseId" component = {TextComp}></Route>
+<Route path="/groups/:groupId/exercise/:exerciseId" component={TextComp}></Route>
 
 function TextComp (props) {
   return (
@@ -57,56 +57,85 @@ function TextComp (props) {
 ```
 will render on this path `/groups/Faculty/exercise/22` an `h1` with text **Faculty** and a `<p>` with text **22**.
 
+* #### location: Object
+
+```javascript
+location: {
+    state: any,     // Current route state
+    search: string, // String representation of query params
+    hash: hash,     // Current location's hash
+    pathname: hash  // Current pathname
+},
+```
+
+#### history: { push: Function, replace: Function }
+
+An object with 2 functions used for navigating to a different page.
+
+**path(to: string, state?: any, replace?: boolean)** -> navigate forward to `to` URL, with an optional state that will be passed to the next route.
+
+The **replace** param specifies if this navigation should replace the current one or not. This affects the order of the pages when navigating via the browser buttons (backward - forward). Default: `false`.
+
+**replace(to: string, state?: any)** -> navigate to `to` URL by replacing the current location in the navigation stack.
+
 ### [`<Link>`](https://reacttraining.com/react-router/web/api/Link)
 
+### Props:
 
-
-#### to: string
+* #### to: string
 
 A string representation of the Link location, created by concatenating the location’s pathname, search, and hash properties.
 
-#### to: object
+* #### to: object
 
 An object that can have any of the following properties:
 
-* **pathname**: A string representing the path to link to.
-* **search**: A string representation of query parameters.
-* **hash**: A hash to put in the URL, e.g. #a-hash.
-* **state**: State to persist to the location
+```javascript
+to: {
+  pathname: string, // A string representing the path to link to
+  search: string,   // A string representation of query parameters
+  hash: string,     // A hash to put in the URL, e.g. #a-hash
+  sate: any         // State to persist to the location
+}
+```
 
-#### to: function 
+* #### to: function 
 
 A function to which current location is passed as an argument and which should return location representation as a string or as an object
 
 
-#### replace: boolean
+* #### replace: boolean
 
 When true, clicking the link will replace the current entry in the history stack instead of adding a new one.
 
 
 ### [`<Redirect>`](https://reacttraining.com/react-router/web/api/Redirect)
 
-#### to: string
+* #### to: string
 
 The URL to redirect to
 
-#### to: object
+* #### to: object
 
-* **pathname**: A string representing the path to redirect to to.
-* **search**: A string representation of query parameters.
-* **hash**: A hash to put in the URL, e.g. #a-hash.
-* **state**: State to persist to the location
+```javascript
+to: {
+  pathname: string, // A string representing the path to link to
+  search: string,   // A string representation of query parameters
+  hash: string,     // A hash to put in the URL, e.g. #a-hash
+  sate: any         // State to persist to the location
+}
+```
 
 
-#### push: bool
+* #### push: bool
 
 When true, redirecting will push a new entry onto the history instead of replacing the current one.
 
-#### from: string
+* #### from: string
 
 Only redirect when on this current pathname. 
 
-#### exact: bool
+* #### exact: bool
 
 This can only be used in conjunction with from to exactly match a location from which to redirect.
 
@@ -116,7 +145,7 @@ Renders the first `<Route>` or `<Redirect>` that matches the location.
 
 **How is this different than just using a bunch of `<Route>`s?**
 
-`<Switch>` is unique in that it renders a route exclusively. In contrast, every <Route> that matches the location renders inclusively. Consider these routes:
+`<Switch>` is unique in that it renders a route exclusively. In contrast, every <Route> that matches the location renders inclusively.
 
 ## Test project
 
