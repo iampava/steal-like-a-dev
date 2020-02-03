@@ -21,6 +21,8 @@ I specifically built just this routing method - using normal URL's instead of ha
 
 ### [`<Route>`](https://reacttraining.com/react-router/web/api/Route)
 
+### Props:
+
 #### component
 
 A React component to render only when the location matches. It will be rendered with route props.
@@ -35,7 +37,29 @@ Any valid URL path or array of paths.
 
 When true, will only match if the path matches the location.pathname exactly.
 
+### Props passed to rendered component
+
+#### match: { params: Object }
+
+An object with one single property - **params** - which contains the values of all the matched params in the pathname. For example:
+
+```jsx
+<Route path="/groups/:groupId/exercise/:exerciseId" component = {TextComp}></Route>
+
+function TextComp (props) {
+  return (
+    <div>
+      <h1> Group: {props.match.groupId} </h1>
+      <p> Exercise: {props.match.exerciseId} </p>
+    </div>
+  )
+}
+```
+will render on this path `/groups/Faculty/exercise/22` an `h1` with text **Faculty** and a `<p>` with text **22**.
+
 ### [`<Link>`](https://reacttraining.com/react-router/web/api/Link)
+
+
 
 #### to: string
 
