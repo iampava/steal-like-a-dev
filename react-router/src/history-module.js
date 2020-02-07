@@ -28,7 +28,7 @@ const HistoryModule = (function historyModuleIIFE() {
         },
         
         replace(to, state) {
-            window.history.pushState(state, undefined, to);
+            window.history.replaceState(state, undefined, to);
             current = { state, to }
 
             notifySubscribers();
