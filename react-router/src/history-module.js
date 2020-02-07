@@ -2,7 +2,6 @@ const HistoryModule = (function historyModuleIIFE() {
     let subscribers = [];
     let current = null
 
-    window.addEventListener('popstate', notifySubscribers);
     window.addEventListener('popstate', onPopState);
 
     return {
