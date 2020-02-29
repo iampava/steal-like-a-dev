@@ -3,7 +3,8 @@ const DEFAULT_STATE = {
     sandwiches: {
         list: [],
         isShopOpen: true
-    }
+    },
+    apologizes: []
 };
 
 function rootReducer(state = DEFAULT_STATE, { type, ...rest }) {
@@ -17,9 +18,9 @@ function rootReducer(state = DEFAULT_STATE, { type, ...rest }) {
             });
         case 'APOLOGIZE': {
             let error = rest.error || 'No 💲💲💲';
-
-            console.error(`${rest.fromPerson} just apologized to ${rest.toPerson} because: ${error}`);
-            return state;
+            return Object.assign({}, state, {
+                apologizes: [...state.apologizes, `${rest.fromPerson} just apologized to ${rest.toPerson} because: ${error}`]
+            })
         }
 
         case 'WITHDRAW':

@@ -23,6 +23,7 @@ class SandwichShop extends React.Component {
     }
 
     render() {
+        const { sandwiches, dispatch, apologizes } = this.props
         return (
             <>
                 <form onSubmit={this.makeSandwich}>
@@ -31,18 +32,24 @@ class SandwichShop extends React.Component {
                 </form>
                 <hr />
                 <p> Sandwitches: </p>
-                {this.props.sandwiches.map(sandwich => (
+                {sandwiches.map(sandwich => (
                     <p key={sandwich}>{sandwich}</p>
                 ))}
                 <hr />
-                <button type="button" onClick={() => this.props.dispatch(makeSandwichesForEverybody())}>
+                <button type="button" onClick={() => dispatch(makeSandwichesForEverybody())}>
                     Make sanviches for everybody{' '}
                 </button>
+                <hr />
+                {apologizes.length ? <>
+                    <h3> Apologizes </h3>
+                    {apologizes.map(apologize => <p style={{ color: 'red' }}>{apologize}</p>)}
+                </> : null}
             </>
         );
     }
 }
 
 export default connect(state => ({
-    sandwiches: state.sandwiches.list
+    sandwiches: state.sandwiches.list,
+    apologizes: state.apologizes
 }))(SandwichShop);
