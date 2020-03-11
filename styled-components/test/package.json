@@ -9,7 +9,7 @@
         "build": "rm -rf build/ && webpack --env.mode production"
     },
     "dependencies": {
-        "@steal-like-a-dev/styled-components": "^1.0.0",
+        "@steal-like-a-dev/styled-components": "^1.0.1",
         "crypto-js": "^3.1.9-1",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
