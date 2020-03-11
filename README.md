@@ -8,7 +8,9 @@ So, as a learning side'project, I started implementing various packages/librarie
 3. [<img width="20" src="https://raw.githubusercontent.com/iampava/steal-like-a-dev/master/_assets/redux-logo.svg?sanitize=true" /> react-redux](https://github.com/iampava/steal-like-a-dev/tree/master/react-redux)
 4. [<img width="20" src="https://raw.githubusercontent.com/iampava/steal-like-a-dev/master/_assets/redux-logo.svg?sanitize=true" /> redux thunk](https://github.com/iampava/steal-like-a-dev/tree/master/redux-thunk)
 5. [<img width="20" src="https://raw.githubusercontent.com/iampava/steal-like-a-dev/master/_assets/styled-components-logo.png" /> styled-components](https://github.com/iampava/steal-like-a-dev/tree/master/styled-components)
-6. Record the tutorials and launch the [WEBSITE](https://StealLikeADev.com) 🔥 [coming next]
+6. Record the tutorials and launch the [WEBSITE](https://StealLikeADev.com) : DONE!!!! 🔥 
+
+Everything is live here: [https://StealLikeADev.com](https://StealLikeADev.com)!
 
 <hr/>
 

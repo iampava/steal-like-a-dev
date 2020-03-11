@@ -1,112 +1,91 @@
 import React from 'react';
 import SHA256 from 'crypto-js/sha256';
 
-let currentComponentProps = {};
-let insertedStyles = [];
-
-let styleEl = createStyleEl();
+const insertedClasses = {};
+const styleEl = document.createElement('style');
+styleEl.setAttribute('data-styled-components', true);
 document.head.appendChild(styleEl);
 
-let proxyHandler = {
-    get(obj, prop) {
-        return taggedTemplateFunctionFactory(prop);
+function styled(Component) {
+    return tagTemplateFactory(Component)
+}
+
+export default new Proxy(styled, {
+    get(target, tagName) {
+        return tagTemplateFactory(tagName);
+
     }
-};
+});
 
-export default new Proxy(styled, proxyHandler);
-export const css = (strings, ...rest) => computeFinalCSS(strings, rest, currentComponentProps);
-export const keyframes = ([cssString]) => {
-    const animationName = getHash(cssString, 'animation');
-    let keyframeObject = {
-        [Symbol.toPrimitive]() {
-            appendStyle(animationName, `@keyframes ${animationName} { ${cssString} }`);
-            return animationName;
-        }
-    };
-
-    return keyframeObject;
-};
-
-/** Functions */
-function styled(ReactComponent) {
-    return taggedTemplateFunctionFactory(ReactComponent);
+export const css = (strings, ...rest) => {
+    return props => computeCSSProps(props, strings, rest)
 }
 
-function taggedTemplateFunctionFactory(tagNameOrReactComponent) {
+export const keyframes = (strings, ...rest) => {
+    return (props) => {
+        let animationCSS = computeCSSProps(props, strings, rest)
+        let animationName = `styled-animation__${SHA256(animationCSS).toString().substr(0, 8)}`;
+
+        appendCSS(animationName, `@keyframes ${animationName} { ${animationCSS} }`);
+
+        //  append to head
+
+        return animationName;
+    }
+}
+
+
+/**** Functions */
+
+function tagTemplateFactory(tagNameOrComponent) {
     return (strings, ...rest) => {
-        return props => {
-            currentComponentProps = props;
+        return (props) => {
+            let cssProps = computeCSSProps(props, strings, rest)
+            let cssClassName = `styled__${SHA256(cssProps).toString().substr(0, 8)}`;
 
-            let tagToRender =
-                typeof tagNameOrReactComponent === 'function'
-                    ? tagNameOrReactComponent
-                    : props.as || tagNameOrReactComponent;
-            let cssString = computeFinalCSS(strings, rest, props);
-            let styledClassName = getHash(cssString);
+            appendCSS(cssClassName, `.${cssClassName} { ${cssProps} }`);
 
-            appendStyle(styledClassName, `.${styledClassName} { ${cssString} }`);
+            let sanitizedProps = {
+                ...props,
+                className: props.className ? `${props.className} ${cssClassName}` : cssClassName
+            }
 
-            currentComponentProps = {};
+            Object.keys(sanitizedProps).forEach(key => {
+                if (typeof sanitizedProps[key] !== 'string') {
+                    delete sanitizedProps[key]
+                }
+            })
 
-            return React.createElement(tagToRender, {
-                ...sanitizeProps(props, tagToRender),
-                className: props.className ? `${props.className} ${styledClassName}` : styledClassName
-            });
-        };
-    };
+            return React.createElement(tagNameOrComponent, sanitizedProps);
+        }
+    }
 }
 
-function computeFinalCSS(strings, rest, props) {
+function computeCSSProps(props, strings, rest) {
     let result = '';
 
-    strings.forEach((string, index) => {
-        result += string;
-
-        if (rest.length <= index) {
-            return;
-        }
-
+    strings.forEach((s, index) => {
+        result += s;
         if (typeof rest[index] === 'function') {
-            result += rest[index](props);
+            let fn = rest[index];
+            while (typeof fn === 'function') {
+                fn = fn(props)
+            }
+            result += fn;
         } else {
             result += rest[index];
         }
-    });
+    })
 
     return result;
 }
 
-function appendStyle(styleId, css) {
-    if (insertedStyles.includes(styleId)) {
-        console.info(`ℹ Already inserted style for this id: ${styleId}`);
-        return;
+function appendCSS(id, css) {
+    if (insertedClasses[id]) {
+        console.info('ℹ Trying to insert a class already inserted.')
+        return
     }
 
-    insertedStyles.push(styleId);
-    styleEl.innerHTML += css;
-}
-
-function createStyleEl() {
-    const styleEl = document.createElement('style');
-    styleEl.setAttribute('data-styled-components', true);
-    styleEl.setAttribute('type', 'text/css');
-
-    return styleEl;
-}
-
-function getHash(content, pre = 'styled') {
-    return `${pre}__${SHA256(content)
-        .toString()
-        .substr(0, 8)}`;
-}
-
-function sanitizeProps(props, tagToRender) {
-    if (typeof tagToRender === 'string') {
-        let newProps = Object.assign({}, props);
-        delete newProps.as;
-
-        return newProps;
-    }
-
-    return props;
+    insertedClasses[id] = true
+    styleEl.innerHTML += css
 }
