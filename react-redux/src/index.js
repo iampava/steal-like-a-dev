@@ -44,7 +44,7 @@ function combineReducers(reducers) {
         let newState = {};
 
         Object.keys(reducers).forEach(key => {
-            newState[key] = reducers[key](state[key], action);
+            newState[key] = reducers[key](state ? state[key] : undefined, action);
         });
 
         return newState;
