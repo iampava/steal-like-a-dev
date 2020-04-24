@@ -142,7 +142,7 @@ export class Redirect extends WithHistory {
         let [to, state] = parseToProp(this.props.to);
 
         if (!from) {
-            return HistoryModule.go(to, state, push);
+            return HistoryModule.go(to, state, !push);
         } else {
             let currentPathname = this.props.location ? this.props.location.pathname : window.location.pathname;
             let parsedFromPath = parseRoutePaths(from, exact);
