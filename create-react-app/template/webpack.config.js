@@ -40,6 +40,9 @@ module.exports = ({ mode } = { mode: 'production' }) => {
                     }
                 ]
             },
+            resolve: {
+                extensions: ['.js', '.jsx', '.json']
+            },
             devServer: {
                 historyApiFallback: true,
                 contentBase: path.join(__dirname, 'public')
