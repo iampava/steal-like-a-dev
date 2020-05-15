@@ -34,15 +34,39 @@ function createApp(appName) {
             return console.error(RED, err);
         }
 
-        ncp(path.resolve(`${__dirname}/../template`), `./${appName}`, err => {
+        ncp(path.resolve(`${__dirname}/../template`), `./${appName}`, async (err) => {
             if (err) {
                 return console.error(RED, err);
             }
+
+            await updateReadme(appName);
 
             console.log(GREEN, '✔ Copied template files');
             console.log('2/2: Installing dependencies via NPM...');
             installDeps(appName);
         });
+    });
+}
+
+function updateReadme(appName) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(`./${appName}/README.md`, 'utf-8', (err, readmeContent) => {
+            if (err) {
+                console.error(RED, err);
+                reject(err);
+            }
+
+            let newReadmeContent = `# ${appName}\n\n${readmeContent}`;
+
+            fs.writeFile(`./${appName}/README.md`, newReadmeContent, (err) => {
+                if (err) {
+                    console.error(RED, err);
+                    reject(err);
+                }
+
+                resolve();
+            })
+        })
     });
 }
 
@@ -52,7 +76,7 @@ function installDeps(appName) {
             return console.error(RED, err);
         }
 
-        const json = JSON.parse(fileContent);
+        let json = JSON.parse(fileContent);
         json.name = appName;
         fs.writeFile(`./${appName}/package.json`, JSON.stringify(json, null, 4), err => {
             if (err) {
@@ -63,7 +87,7 @@ function installDeps(appName) {
                 if (err) {
                     return console.error(RED, err);
                 }
-                
+
                 console.log(GREEN, '✔ Dependecies installed');
                 console.log(GREEN, '✔ All done!');
             });
@@ -74,11 +98,11 @@ function installDeps(appName) {
 function printHelp() {
     console.log(`/************* @steal-like-a-dev/create-react-app v${version} ************/`);
     console.log('HOW TO: \n');
-    console.log(GREEN, '$ @steal-like-a-dev/create-react-app my-app-name');
+    console.log(GREEN, '$ stolen-create-react-app my-app-name');
     console.log(
         '      -- create a new React started app in a folder called "my-app-name", and install all dependencies via NPM \n'
     );
-    console.log(GREEN, '$ @steal-like-a-dev/create-react-app -h | -help');
+    console.log(GREEN, '$ stolen-create-react-app -h | -help');
     console.log('      -- print helper info \n');
     console.log('/*************************/');
 }
